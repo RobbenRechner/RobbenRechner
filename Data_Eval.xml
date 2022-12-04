@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Data_Eval</name>
+    </assembly>
+    <members>
+        <member name="T:Data.Eval.CodeWriting.InternalTypeAccessorWriter">
+            <summary>
+            	Generates a class file wrapping what would otherwise be only an internally
+            	accessible class file, e.g. anonymous type.
+            </summary>
+        </member>
+        <member name="T:Data.Eval.Compilation.CompilationException">
+            <summary>
+            	Exception class that is raised if an error is thrown during compilation
+            	step of Evaluator class containing additional information for troubleshooting.
+            </summary>
+        </member>
+        <member name="P:Data.Eval.Compilation.CompilationException.GeneratedClassCode">
+            <summary>
+            	Class code that was generated from Evaluator and attempted to be
+            	compiled. Useful for troubleshooting compile error by seeing how
+            	Evaluator used specified values when generating code for compilation.
+            </summary>
+        </member>
+        <member name="M:Data.Eval.Compilation.CompilationException.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Data.Eval.Compilation.CompilationException.#ctor(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:Data.Eval.Compilation.CompilationException.#ctor(System.String,System.Exception)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="M:Data.Eval.Compilation.CompilationException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="M:Data.Eval.Compilation.CompilationException.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
+            <summary>
+            
+            </summary>
+            <param name="info"></param>
+            <param name="context"></param>
+        </member>
+        <member name="T:Data.Eval.Evaluator">
+            <summary>
+            	Class for evaluating and executing C# based string expressions
+            	dynamically at runtime.
+            </summary>
+        </member>
+        <member name="M:Data.Eval.Evaluator.#ctor(System.String)">
+            <summary>
+            	Creates an instance of the evaluator by specifying the expression
+            	to be evaluated.
+            </summary>
+            <param name="expression">
+            	C# based string expression to be evaluated or executed, e.g.
+            	"return 1+1" for evaluation or
+            	"System.Console.WriteLine(\"Hello World!\")" for execution.
+            </param>
+        </member>
+        <member name="P:Data.Eval.Evaluator.Item(System.String)">
+            <summary>
+            	Sets the value of a variable referenced within the expression prior
+            	to evaluation or returns the value of a variable referenced within the
+            	expression after evaluation.
+            </summary>
+            <param name="name">
+            	Name of the variable referenced within the expression.
+            </param>
+            <returns>
+            	Value of the variable referenced within the expression after evaluation.
+            </returns>
+        </member>
+        <member name="P:Data.Eval.Evaluator.VariableNames">
+            <summary>
+            	Returns a list of all the variables that have been added to the
+            	Evaluator context.
+            </summary>
+        </member>
+        <member name="P:Data.Eval.Evaluator.DebugFileOutputName">
+            <summary>
+            	If set, the definition of the internal evaluation class will be saved
+            	out to this file upon the first call to Exec or Eval. This file can be
+            	used to troubleshoot syntax errors.
+            </summary>
+        </member>
+        <member name="M:Data.Eval.Evaluator.SetVariable(System.String,System.Object)">
+            <summary>
+            	Sets the value of a variable referenced within the expression prior
+            	to evaluation.
+            </summary>
+            <param name="name">
+            	Name of the variable referenced within the expression.
+            </param>
+            <param name="value">
+            	Value of the variable that should be used when evaluating the expression.
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.SetVariable(System.String,System.Object,System.Type)">
+            <summary>
+            	Sets the value of a variable referenced within the expression prior
+            	to evaluation. This override allows specifying the Type of the variable
+            	instead of trying to introspect it. Also allows for passing null as the
+            	value.
+            </summary>
+            <param name="name">
+            	Name of the variable referenced within the expression.
+            </param>
+            <param name="value">
+            	Value of the variable that should be used when evaluating the expression.
+            </param>
+            <param name="type">
+            	The variable Type.
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.GetVariable(System.String)">
+            <summary>
+            	Returns the value of a variable referenced within the
+            	expression after evaluation.
+            </summary>
+            <param name="name">
+            	Name of the variable referenced within the expression.
+            </param>
+            <returns>
+            	Value of the variable referenced within the expression after evaluation.
+            </returns>
+        </member>
+        <member name="M:Data.Eval.Evaluator.AddReference(System.String)">
+            <summary>
+            	Allows methods and types from an external library to be referenced
+            	within an expression by providing the path to the location of the
+            	assembly where they're defined.
+            </summary>
+            <param name="assemblyPath">
+            	Absolute or relative path to the location of the referenced
+            	assembly.
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.AddReference(System.Reflection.Assembly)">
+            <summary>
+            	Allows methods and types from an external library to be referenced
+            	within an expression by providing a reference to the already 
+            	loaded assembly from the calling code.
+            </summary>
+            <param name="assembly">
+            	Assembly reference object from the calling scope.
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.AddUsing(System.String)">
+            <summary>
+            	Allows namespaces to be added to expression execution context so
+            	code within expression does not have to fully qualify classes.
+            </summary>
+            <param name="usingNamespace">
+            	Fully qualified namespace to be added to the expression execution
+            	context, e.g. "System.Collections.Generic".
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.AddMethod(System.String)">
+            <summary>
+            	Allows a method definition to be added to the expression execution
+            	context and referenced within the expression.
+            </summary>
+            <param name="methodDefinition">
+            	Full definition of the method to add to the expression execution
+            	context. Can be public or private, static or non-static.
+            </param>
+        </member>
+        <member name="M:Data.Eval.Evaluator.Eval">
+            <summary>
+            	Executes the expression and returns the resulting value.
+            </summary>
+            <returns>
+            	Value specified to be returned from the expression.
+            </returns>
+        </member>
+        <member name="M:Data.Eval.Evaluator.Eval``1">
+            <summary>
+            	Executes the expression and returns the resulting value, cast as
+            	the specified object type.
+            </summary>
+            <typeparam name="T">
+            	Object type to cast the return value as.
+            </typeparam>
+            <returns>
+            	Value specified to be returned from the expression.
+            </returns>
+        </member>
+        <member name="M:Data.Eval.Evaluator.Eval(System.String)">
+            <summary>
+            	Simplified static method to execute an expression and return the
+            	resulting value.
+            </summary>
+            <param name="expression">
+            	C# based string expression to be evaluated, e.g. "return 1+1".
+            </param>
+            <returns>
+            	Value specified to be returned from the expression.
+            </returns>
+        </member>
+        <member name="M:Data.Eval.Evaluator.Eval``1(System.String)">
+            <summary>
+            	Simplified static method to execute an expression and return the
+            	resulting value, cast as the specified object type.
+            </summary>
+            <typeparam name="T">
+            	Object type to cast the return value as.
+            </typeparam>
+            <param name="expression">
+            	C# based string expression to be evaluated, e.g. "return 1+1".
+            </param>
+            <returns>
+            	Value specified to be returned from the expression.
+            </returns>
+        </member>
+        <member name="M:Data.Eval.Evaluator.Exec">
+            <summary>
+            	Executes the expression without returning a value. Resulting
+            	new variable values that were updated inside the expression
+            	can be subsequently accessed using <see cref="M:Data.Eval.Evaluator.GetVariable(System.String)"/>
+            	or <see cref="P:Data.Eval.Evaluator.Item(System.String)"/>. 
+            </summary>
+        </member>
+        <member name="M:Data.Eval.Reflection.PropertyFinder.GetProperties(System.Type)">
+            <summary>
+            	Returns a Dictionary of the public declared instance properties of
+            	a given Type.
+            </summary>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
